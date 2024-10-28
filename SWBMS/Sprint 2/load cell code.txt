@@ -1,0 +1,36 @@
+#include "HX711.h"
+
+// Pin configuration for HX711
+#define DOUT  3  // Data pin (DT) connected to Arduino pin 3
+#define CLK   2  // Clock pin (SCK) connected to Arduino pin 2
+
+HX711 scale;
+
+float calibration_factor = 221314.00;  // Calibration factor, adjust this as per your load cell
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Initialize the scale
+  scale.begin(DOUT, CLK);
+  
+  // Set the calibration factor (modify this to match your load cell setup)
+  scale.set_scale(calibration_factor);
+  
+  // Tare the scale (reset to zero)
+  scale.tare();
+  Serial.println("Scale is tared (set to zero).");
+
+  Serial.println("Place a known weight on the scale for accurate readings.");
+}
+
+void loop() {
+  // Read and display weight in grams
+  float weight = scale.get_units() * 1000;  // Convert the weight to grams by multiplying by 1000
+  
+  Serial.print("Weight: ");
+  Serial.print(weight, 2);  // Print the weight with 2 decimal places
+  Serial.println(" grams");
+
+  delay(500);  // Delay to take readings at 0.5-second intervals
+}
