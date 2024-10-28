@@ -1,0 +1,4 @@
+Blue Tag:UID tag:  B0 91 0F 0E
+tag A:UID tag:  CA 58 F0 16
+tag B:UID tag:  83 CE 02 28
+tag C:UID tag:  73 A6 6F 28

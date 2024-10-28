@@ -1,0 +1,40 @@
+#include "HX711.h"
+
+// Pin configuration for HX711
+#define DOUT  3
+#define CLK  2
+
+HX711 scale;
+
+void setup() {
+  Serial.begin(9600);
+  scale.begin(DOUT, CLK);
+
+  // Tare the scale (reset to 0)
+  Serial.println("Tare... Remove any load.");
+  scale.set_scale();
+  scale.tare();  // Reset the scale to zero
+  Serial.println("Tare done. Place a known weight on the scale.");
+}
+
+void loop() {
+  // Read raw value without known weight
+  Serial.print("Reading: ");
+  Serial.println(scale.get_units(), 1);  // Change the precision (1) as needed
+
+  // Calibration step
+  if (Serial.available()) {
+    float known_weight = Serial.parseFloat();
+    if (known_weight > 0) {
+      Serial.print("Calibrating... Set to known weight: ");
+      Serial.println(known_weight);
+      Serial.println(scale.get_units());
+      
+      scale.set_scale(scale.get_units() / known_weight);  // Adjust scale factor
+      Serial.println("Calibration complete.");
+    }
+  }
+
+  delay(500);
+}
+#221314.00

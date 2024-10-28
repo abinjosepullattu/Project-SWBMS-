@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20-Min Timer Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #image-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        #timer {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        #timesup {
+            display: none;
+            font-size: 36px;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div id="image-container">
+    <img id="image" src="https://via.placeholder.com/600x400" alt="Center Image">
+    <div id="timer">20:00</div>
+    <div id="timesup">Time's Up!</div>
+</div>
+
+<script>
+    let timeLeft = 20 * 60; // 20 minutes in seconds
+    const timerDisplay = document.getElementById("timer");
+    const image = document.getElementById("image");
+    const timesUpMessage = document.getElementById("timesup");
+
+    function startTimer() {
+        const countdown = setInterval(function() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                image.style.display = "none";  // Hide the image
+                timerDisplay.style.display = "none";  // Hide the timer
+                timesUpMessage.style.display = "block";  // Show "Time's Up!"
+            }
+        }, 1000);
+    }
+
+    window.onload = startTimer;
+</script>
+
+</body>
+</html>
